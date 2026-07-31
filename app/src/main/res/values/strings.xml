@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Watch Running</string>
+    <string name="notification_channel_name">Active run</string>
+    <string name="notification_paused">Run paused</string>
+    <string name="notification_channel_description">Keeps run tracking active while the screen is off</string>
+    <string name="notification_preparing">Acquiring GPS and heart rate</string>
+    <string name="notification_running">Running · %1$s</string>
+</resources>
