@@ -1,0 +1,384 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "bbcf00190f12c9f3b8f0d5281672eb4d",
+    "entities": [
+      {
+        "tableName": "workout_sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `status` TEXT NOT NULL, `startEpochMillis` INTEGER NOT NULL, `endEpochMillis` INTEGER, `startMonotonicMillis` INTEGER NOT NULL, `elapsedMillis` INTEGER NOT NULL, `activeMillis` INTEGER NOT NULL, `distanceMetres` REAL NOT NULL, `distanceSource` TEXT NOT NULL, `averagePaceMillisPerKm` INTEGER, `averageHeartRate` REAL, `maximumHeartRate` REAL, `heartRateSampleSum` REAL NOT NULL, `heartRateSampleCount` INTEGER NOT NULL, `zone1Millis` INTEGER NOT NULL, `zone2Millis` INTEGER NOT NULL, `zone3Millis` INTEGER NOT NULL, `zone4Millis` INTEGER NOT NULL, `zone5Millis` INTEGER NOT NULL, `unclassifiedHeartRateMillis` INTEGER NOT NULL, `effectiveMaximumHeartRate` INTEGER, `zone1LowerBpm` INTEGER, `zone2LowerBpm` INTEGER, `zone3LowerBpm` INTEGER, `zone4LowerBpm` INTEGER, `zone5LowerBpm` INTEGER, `smoothingWindowSeconds` INTEGER NOT NULL, `gpsAvailable` INTEGER NOT NULL, `heartRateAvailable` INTEGER NOT NULL, `endReason` INTEGER, `lastRouteSequence` INTEGER NOT NULL, `lastCheckpointEpochMillis` INTEGER NOT NULL, `recoveredPartial` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startEpochMillis",
+            "columnName": "startEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endEpochMillis",
+            "columnName": "endEpochMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startMonotonicMillis",
+            "columnName": "startMonotonicMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elapsedMillis",
+            "columnName": "elapsedMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activeMillis",
+            "columnName": "activeMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "distanceMetres",
+            "columnName": "distanceMetres",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "distanceSource",
+            "columnName": "distanceSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "averagePaceMillisPerKm",
+            "columnName": "averagePaceMillisPerKm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "averageHeartRate",
+            "columnName": "averageHeartRate",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "maximumHeartRate",
+            "columnName": "maximumHeartRate",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "heartRateSampleSum",
+            "columnName": "heartRateSampleSum",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heartRateSampleCount",
+            "columnName": "heartRateSampleCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zone1Millis",
+            "columnName": "zone1Millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zone2Millis",
+            "columnName": "zone2Millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zone3Millis",
+            "columnName": "zone3Millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zone4Millis",
+            "columnName": "zone4Millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zone5Millis",
+            "columnName": "zone5Millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unclassifiedHeartRateMillis",
+            "columnName": "unclassifiedHeartRateMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "effectiveMaximumHeartRate",
+            "columnName": "effectiveMaximumHeartRate",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zone1LowerBpm",
+            "columnName": "zone1LowerBpm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zone2LowerBpm",
+            "columnName": "zone2LowerBpm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zone3LowerBpm",
+            "columnName": "zone3LowerBpm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zone4LowerBpm",
+            "columnName": "zone4LowerBpm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "zone5LowerBpm",
+            "columnName": "zone5LowerBpm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "smoothingWindowSeconds",
+            "columnName": "smoothingWindowSeconds",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gpsAvailable",
+            "columnName": "gpsAvailable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heartRateAvailable",
+            "columnName": "heartRateAvailable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endReason",
+            "columnName": "endReason",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastRouteSequence",
+            "columnName": "lastRouteSequence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastCheckpointEpochMillis",
+            "columnName": "lastCheckpointEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recoveredPartial",
+            "columnName": "recoveredPartial",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "route_points",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` TEXT NOT NULL, `sequence` INTEGER NOT NULL, `epochMillis` INTEGER NOT NULL, `activeOffsetMillis` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `altitudeMetres` REAL, `bearingDegrees` REAL, `horizontalAccuracyMetres` REAL NOT NULL, `continuitySegment` INTEGER NOT NULL, PRIMARY KEY(`sessionId`, `sequence`), FOREIGN KEY(`sessionId`) REFERENCES `workout_sessions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sequence",
+            "columnName": "sequence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "epochMillis",
+            "columnName": "epochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activeOffsetMillis",
+            "columnName": "activeOffsetMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altitudeMetres",
+            "columnName": "altitudeMetres",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "bearingDegrees",
+            "columnName": "bearingDegrees",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "horizontalAccuracyMetres",
+            "columnName": "horizontalAccuracyMetres",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "continuitySegment",
+            "columnName": "continuitySegment",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sessionId",
+            "sequence"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_route_points_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_route_points_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workout_sessions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "pause_periods",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` TEXT NOT NULL, `sequence` INTEGER NOT NULL, `startEpochMillis` INTEGER NOT NULL, `endEpochMillis` INTEGER, `startActiveMillis` INTEGER NOT NULL, `endActiveMillis` INTEGER, `reason` TEXT NOT NULL, PRIMARY KEY(`sessionId`, `sequence`), FOREIGN KEY(`sessionId`) REFERENCES `workout_sessions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "sessionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sequence",
+            "columnName": "sequence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startEpochMillis",
+            "columnName": "startEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endEpochMillis",
+            "columnName": "endEpochMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startActiveMillis",
+            "columnName": "startActiveMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endActiveMillis",
+            "columnName": "endActiveMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "reason",
+            "columnName": "reason",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sessionId",
+            "sequence"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_pause_periods_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pause_periods_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "workout_sessions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbcf00190f12c9f3b8f0d5281672eb4d')"
+    ]
+  }
+}
