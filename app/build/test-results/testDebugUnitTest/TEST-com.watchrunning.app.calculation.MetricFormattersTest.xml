@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.watchrunning.app.calculation.MetricFormattersTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-07-31T04:56:36.220Z" hostname="DESKTOP-4J5DF41" time="0.002">
+  <properties/>
+  <testcase name="durationFormatsLongRuns" classname="com.watchrunning.app.calculation.MetricFormattersTest" time="0.0"/>
+  <testcase name="paceRoundsAndCarriesMinute" classname="com.watchrunning.app.calculation.MetricFormattersTest" time="0.0"/>
+  <testcase name="paceRejectsInvalidValues" classname="com.watchrunning.app.calculation.MetricFormattersTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

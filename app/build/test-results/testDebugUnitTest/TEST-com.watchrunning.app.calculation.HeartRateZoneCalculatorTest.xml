@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.watchrunning.app.calculation.HeartRateZoneCalculatorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-07-31T04:56:36.202Z" hostname="DESKTOP-4J5DF41" time="0.015">
+  <properties/>
+  <testcase name="restoredTotalsContinueWithoutBeingReinterpreted" classname="com.watchrunning.app.calculation.HeartRateZoneCalculatorTest" time="0.014"/>
+  <testcase name="pauseBreaksHeartRateContinuity" classname="com.watchrunning.app.calculation.HeartRateZoneCalculatorTest" time="0.0"/>
+  <testcase name="zoneTimeUsesEarlierSampleAndClassifiesLongGaps" classname="com.watchrunning.app.calculation.HeartRateZoneCalculatorTest" time="0.0"/>
+  <testcase name="boundariesAreInclusiveAtZoneStart" classname="com.watchrunning.app.calculation.HeartRateZoneCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
