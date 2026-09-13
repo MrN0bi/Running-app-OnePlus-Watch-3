@@ -1,6 +1,5 @@
 package com.watchrunning.app.ui
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,11 +27,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,18 +38,15 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import com.watchrunning.app.BuildConfig
 import com.watchrunning.app.calculation.MetricFormatters
-import com.watchrunning.app.data.settings.MaximumHeartRateMode
 import com.watchrunning.app.data.settings.RunningSettings
 import com.watchrunning.app.data.settings.SettingsRepository
 import com.watchrunning.app.model.ExerciseCapabilitiesSnapshot
 import com.watchrunning.app.model.GpsStatus
 import com.watchrunning.app.model.GpsSource
-import com.watchrunning.app.model.HeartRateZone
 import com.watchrunning.app.model.LiveMetrics
 import com.watchrunning.app.model.WorkoutCommand
 import com.watchrunning.app.model.WorkoutPhase
 import com.watchrunning.app.model.WorkoutUiState
-import java.time.Duration
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -65,14 +57,6 @@ private val Muted = Color(0xFFAAAAAA)
 private val Green = Color(0xFF64D75B)
 private val Orange = Color(0xFFFF7800)
 private val Red = Color(0xFFFF3B24)
-private val ZoneColors = listOf(
-    Color(0xFF378ED7),
-    Color(0xFF62C653),
-    Color(0xFFFFCC16),
-    Color(0xFFFF7A08),
-    Color(0xFFF13722),
-)
-
 private enum class LocalScreen { HOME, SETTINGS }
 
 @Composable
@@ -88,8 +72,18 @@ fun RunningApp(
     settingsRepository: SettingsRepository,
 ) {
     var localScreen by remember { mutableStateOf(LocalScreen.HOME) }
+    val keepDisplayActive = state.phase in setOf(
+        WorkoutPhase.Preparing,
+        WorkoutPhase.Starting,
+        WorkoutPhase.Active,
+        WorkoutPhase.Pausing,
+        WorkoutPhase.Paused,
+        WorkoutPhase.Resuming,
+        WorkoutPhase.Ending,
+    )
+    val screenModifier = if (keepDisplayActive) Modifier.keepScreenOn() else Modifier
     MaterialTheme {
-        Box(Modifier.fillMaxSize().background(Black)) {
+        Box(screenModifier.fillMaxSize().background(Black)) {
             when {
                 localScreen == LocalScreen.SETTINGS && !state.hasActiveSession -> SettingsScreen(
                     settings = settings,
@@ -259,25 +253,16 @@ private fun ActiveWorkoutScreen(
 private fun WorkoutMetrics(metrics: LiveMetrics, paceWindowSeconds: Int) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val scale = (maxHeight / 233.dp).coerceIn(0.78f, 1.12f)
-        ZoneArc(metrics.zoneIndicatorFraction, scale)
         Column(
             Modifier.fillMaxSize().padding(horizontal = 18.dp * scale, vertical = 7.dp * scale),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
         ) {
-            Spacer(Modifier.height(43.dp * scale))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("♥", color = Red, fontSize = 20.sp * scale)
                 Spacer(Modifier.width(4.dp * scale))
                 Text(metrics.heartRateBpm?.toString() ?: "—", color = White, fontSize = 28.sp * scale, fontWeight = FontWeight.Bold)
                 Text(" bpm", color = White, fontSize = 10.sp * scale)
-                Spacer(Modifier.width(8.dp * scale))
-                Box(
-                    Modifier.background(Color.Transparent, RoundedCornerShape(24.dp))
-                        .padding(horizontal = 6.dp * scale, vertical = 3.dp * scale),
-                ) {
-                    val zone = metrics.heartRateZone.number.takeIf { it > 0 }?.let { "Zone $it" } ?: "Zone —"
-                    Text(zone, color = zoneColor(metrics.heartRateZone), fontSize = 10.sp * scale, fontWeight = FontWeight.Bold)
-                }
             }
             Spacer(Modifier.height(3.dp * scale))
             Text("${paceWindowSeconds}s pace", color = Muted, fontSize = 11.sp * scale)
@@ -309,46 +294,6 @@ private fun WorkoutMetrics(metrics: LiveMetrics, paceWindowSeconds: Int) {
                 Box(Modifier.width(1.dp).height(20.dp * scale).background(Color(0xFF444444)))
                 Text(MetricFormatters.duration(metrics.activeDuration), color = Green, fontSize = 13.sp * scale)
             }
-        }
-    }
-}
-
-@Composable
-private fun ZoneArc(indicatorFraction: Float?, scale: Float) {
-    Canvas(Modifier.fillMaxWidth().height(82.dp * scale).padding(horizontal = 18.dp * scale, vertical = 8.dp * scale)) {
-        val strokeWidth = (7.dp * scale).toPx()
-        val gap = 2.2f
-        val segmentSweep = (140f - gap * 4) / 5f
-        val arcSize = Size(size.width - strokeWidth, size.width - strokeWidth)
-        val topLeft = Offset(strokeWidth / 2, (2.dp * scale).toPx())
-        ZoneColors.forEachIndexed { index, color ->
-            drawArc(
-                color = color,
-                startAngle = 200f + index * (segmentSweep + gap),
-                sweepAngle = segmentSweep,
-                useCenter = false,
-                topLeft = topLeft,
-                size = arcSize,
-                style = Stroke(strokeWidth, cap = StrokeCap.Butt),
-            )
-        }
-        indicatorFraction?.let { fraction ->
-            val scaled = (fraction.coerceIn(0f, 1f) * 5f)
-            val zoneIndex = scaled.toInt().coerceAtMost(4)
-            val withinZone = if (fraction >= 1f) 1f else scaled - zoneIndex
-            val indicatorAngle = 200f + zoneIndex * (segmentSweep + gap) + withinZone * segmentSweep
-            val angle = Math.toRadians(indicatorAngle.toDouble())
-            val radius = arcSize.width / 2
-            val centre = Offset(topLeft.x + radius, topLeft.y + radius)
-            val inner = radius - strokeWidth * 0.85f
-            val outer = radius + strokeWidth * 0.25f
-            drawLine(
-                White,
-                Offset(centre.x + kotlin.math.cos(angle).toFloat() * inner, centre.y + kotlin.math.sin(angle).toFloat() * inner),
-                Offset(centre.x + kotlin.math.cos(angle).toFloat() * outer, centre.y + kotlin.math.sin(angle).toFloat() * outer),
-                strokeWidth = (3.dp * scale).toPx(),
-                cap = StrokeCap.Round,
-            )
         }
     }
 }
@@ -433,10 +378,6 @@ private fun SummaryScreen(state: WorkoutUiState, onDone: () -> Unit) {
         SummaryRow("Average", "${MetricFormatters.pace(state.metrics.averagePaceSecondsPerKm)} /km")
         SummaryRow("Average HR", state.metrics.averageHeartRateBpm?.let { "${it.toInt()} bpm" } ?: "Unavailable")
         SummaryRow("Maximum HR", state.metrics.maximumHeartRateBpm?.let { "${it.toInt()} bpm" } ?: "Unavailable")
-        state.zoneTimeMillis.forEachIndexed { index, millis ->
-            SummaryRow("Zone ${index + 1}", MetricFormatters.duration(Duration.ofMillis(millis)))
-        }
-        SummaryRow("HR unclassified", MetricFormatters.duration(Duration.ofMillis(state.unclassifiedHeartRateMillis)))
         SummaryRow("Pauses", state.pauseCount.toString())
         if (state.warning != null) Text(state.warning, color = Color(0xFFFFB74D), fontSize = 11.sp, textAlign = TextAlign.Center)
         Spacer(Modifier.height(18.dp))
@@ -459,25 +400,6 @@ private fun SettingsScreen(
     ) {
         Text("SETTINGS", color = White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(16.dp))
-        SettingStepper("Age", current.age ?: 30, 13, 100) { scope.launch { repository.setAge(it) } }
-        Spacer(Modifier.height(12.dp))
-        Text("Maximum HR", color = Muted, fontSize = 12.sp)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Choice("Estimate", current.maximumHeartRateMode == MaximumHeartRateMode.AGE_ESTIMATE) {
-                scope.launch { repository.setMaximumHeartRateMode(MaximumHeartRateMode.AGE_ESTIMATE) }
-            }
-            Choice("Manual", current.maximumHeartRateMode == MaximumHeartRateMode.MANUAL) {
-                scope.launch { repository.setMaximumHeartRateMode(MaximumHeartRateMode.MANUAL) }
-            }
-        }
-        if (current.maximumHeartRateMode == MaximumHeartRateMode.MANUAL) {
-            SettingStepper("Max bpm", current.manualMaximumHeartRate ?: 190, 100, 240) {
-                scope.launch { repository.setManualMaximumHeartRate(it) }
-            }
-        } else {
-            Text("Effective: ${current.effectiveMaximumHeartRate ?: "—"} bpm", color = White, fontSize = 12.sp)
-        }
-        Spacer(Modifier.height(12.dp))
         Text("Pace smoothing", color = Muted, fontSize = 12.sp)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(3, 5, 10).forEach { seconds ->
@@ -495,16 +417,6 @@ private fun SettingsScreen(
         )
         Spacer(Modifier.height(12.dp))
         WideAction("BACK", Color(0xFF333333), White, onClick = onBack)
-    }
-}
-
-@Composable
-private fun SettingStepper(label: String, value: Int, minimum: Int, maximum: Int, onValue: (Int) -> Unit) {
-    Text(label, color = Muted, fontSize = 12.sp)
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        RoundAction("−", Color(0xFF292929), White, { onValue((value - 1).coerceAtLeast(minimum)) }, 48)
-        Text(value.toString(), color = White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-        RoundAction("+", Color(0xFF292929), White, { onValue((value + 1).coerceAtMost(maximum)) }, 48)
     }
 }
 
@@ -568,11 +480,6 @@ private fun RoundAction(
     ) {
         Text(label, color = foreground, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
     }
-}
-
-private fun zoneColor(zone: HeartRateZone): Color = when (zone) {
-    HeartRateZone.BELOW -> Muted
-    else -> ZoneColors[zone.number - 1]
 }
 
 private fun yesNo(value: Boolean): String = if (value) "yes" else "no"

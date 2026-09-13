@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.watchrunning.app.exercise.WorkoutStateReducerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-07-31T04:56:36.229Z" hostname="DESKTOP-4J5DF41" time="0.003">
+<testsuite name="com.watchrunning.app.exercise.WorkoutStateReducerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-12T16:11:26.394Z" hostname="DESKTOP-4J5DF41" time="0.004">
   <properties/>
-  <testcase name="onlyLegalCommandsBecomePending" classname="com.watchrunning.app.exercise.WorkoutStateReducerTest" time="0.003"/>
+  <testcase name="onlyLegalCommandsBecomePending" classname="com.watchrunning.app.exercise.WorkoutStateReducerTest" time="0.004"/>
   <testcase name="healthServicesConfirmationClearsPendingCommand" classname="com.watchrunning.app.exercise.WorkoutStateReducerTest" time="0.0"/>
   <testcase name="duplicateCommandIsIgnoredWhilePending" classname="com.watchrunning.app.exercise.WorkoutStateReducerTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

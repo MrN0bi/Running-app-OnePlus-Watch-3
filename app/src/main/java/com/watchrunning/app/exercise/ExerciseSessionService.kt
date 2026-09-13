@@ -20,11 +20,9 @@ import androidx.health.services.client.data.LocationAccuracy
 import androidx.health.services.client.data.LocationAvailability
 import com.watchrunning.app.BuildConfig
 import com.watchrunning.app.WatchRunningApplication
-import com.watchrunning.app.calculation.HeartRateZoneCalculator
 import com.watchrunning.app.calculation.LocationSourceSelector
 import com.watchrunning.app.calculation.PaceEstimator
 import com.watchrunning.app.calculation.SystemMonotonicClock
-import com.watchrunning.app.calculation.ZoneTimeAccumulator
 import com.watchrunning.app.model.HeartRateSample
 import com.watchrunning.app.model.GpsStatus
 import com.watchrunning.app.model.GpsSource
@@ -35,7 +33,6 @@ import com.watchrunning.app.model.PaceUnavailableReason
 import com.watchrunning.app.model.WorkoutCommand
 import com.watchrunning.app.model.WorkoutPhase
 import com.watchrunning.app.model.WorkoutUiState
-import com.watchrunning.app.model.ZoneConfiguration
 import java.time.Duration
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
@@ -61,8 +58,6 @@ class ExerciseSessionService : Service() {
     private lateinit var notifier: OngoingWorkoutNotifier
 
     private var paceEstimator = PaceEstimator()
-    private var zoneConfiguration: ZoneConfiguration? = null
-    private var zoneAccumulator: ZoneTimeAccumulator? = null
     private var sessionStartMonotonicMillis: Long? = null
     private var pauseOpen = false
     private var continuitySegment = 0
@@ -185,10 +180,6 @@ class ExerciseSessionService : Service() {
         val settings = application.settingsRepository.settings.first()
         paceEstimator = PaceEstimator(settings.paceWindowSeconds)
         locationSourceSelector.reset()
-        zoneConfiguration = settings.effectiveMaximumHeartRate?.let {
-            HeartRateZoneCalculator.fromMaximumHeartRate(it)
-        }
-        zoneAccumulator = zoneConfiguration?.let(::ZoneTimeAccumulator)
         repository.replaceState(
             WorkoutUiState.newSession().copy(
                 phase = WorkoutPhase.Preparing,
@@ -282,7 +273,6 @@ class ExerciseSessionService : Service() {
 
         if (phase == WorkoutPhase.Paused) {
             paceEstimator.breakContinuity()
-            zoneAccumulator?.breakContinuity()
             previousAcceptedLocation = null
             continuitySegment++
         }
@@ -304,9 +294,6 @@ class ExerciseSessionService : Service() {
                     elapsedDuration = elapsed,
                     averagePaceSecondsPerKm = if (distance >= 50.0) active.toMillis() / distance else null,
                 ),
-                zoneTimeMillis = zoneAccumulator?.zoneMillis() ?: old.zoneTimeMillis,
-                unclassifiedHeartRateMillis = zoneAccumulator?.unclassifiedMillis()
-                    ?: old.unclassifiedHeartRateMillis,
                 error = null,
             )
         }
@@ -337,24 +324,17 @@ class ExerciseSessionService : Service() {
             if (!value.isFinite() || value <= 0.0 || !acceptable) continue
             val sample = HeartRateSample(value, point.timeDurationFromBoot.toMillis(), true)
             lastHeartRate = sample
-            zoneAccumulator?.add(sample, active)
             if (active) {
                 heartRateSum += value
                 heartRateCount++
                 maximumHeartRateSeen = maxOf(maximumHeartRateSeen ?: value, value)
             }
-            val configuration = zoneConfiguration
             repository.updateState { old ->
                 old.copy(
                     metrics = old.metrics.copy(
                         heartRateBpm = value.toInt(),
                         averageHeartRateBpm = if (heartRateCount > 0) heartRateSum / heartRateCount else null,
                         maximumHeartRateBpm = maximumHeartRateSeen,
-                        heartRateZone = configuration?.let { HeartRateZoneCalculator.zone(value, it) }
-                            ?: old.metrics.heartRateZone,
-                        zoneIndicatorFraction = configuration?.let {
-                            HeartRateZoneCalculator.indicatorFraction(value, it)
-                        },
                         heartRateReady = true,
                         heartRateStale = false,
                     ),
@@ -560,9 +540,6 @@ class ExerciseSessionService : Service() {
                             gpsFixAgeMillis = fixAge,
                             gpsStale = fixAge == null || fixAge > GPS_STALE_MILLIS,
                         ),
-                        zoneTimeMillis = zoneAccumulator?.zoneMillis() ?: old.zoneTimeMillis,
-                        unclassifiedHeartRateMillis = zoneAccumulator?.unclassifiedMillis()
-                            ?: old.unclassifiedHeartRateMillis,
                     )
                 }
                 if (now - lastNotificationAt >= NOTIFICATION_UPDATE_MILLIS) {

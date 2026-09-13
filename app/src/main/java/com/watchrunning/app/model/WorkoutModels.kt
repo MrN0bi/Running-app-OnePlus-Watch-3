@@ -62,26 +62,6 @@ data class PaceEstimate(
     val isAvailable: Boolean get() = secondsPerKilometre != null
 }
 
-data class ZoneConfiguration(
-    val maximumHeartRate: Int,
-    val lowerBoundsBpm: List<Int>,
-) {
-    init {
-        require(maximumHeartRate in 100..240)
-        require(lowerBoundsBpm.size == 5)
-        require(lowerBoundsBpm.zipWithNext().all { (a, b) -> a < b })
-    }
-}
-
-enum class HeartRateZone(val number: Int) {
-    BELOW(0),
-    ZONE_1(1),
-    ZONE_2(2),
-    ZONE_3(3),
-    ZONE_4(4),
-    ZONE_5(5),
-}
-
 enum class GpsStatus {
     UNKNOWN,
     ACQUIRING,
@@ -103,8 +83,6 @@ data class LiveMetrics(
     val heartRateBpm: Int? = null,
     val averageHeartRateBpm: Double? = null,
     val maximumHeartRateBpm: Double? = null,
-    val heartRateZone: HeartRateZone = HeartRateZone.BELOW,
-    val zoneIndicatorFraction: Float? = null,
     val pace: PaceEstimate? = null,
     val distanceMetres: Double = 0.0,
     val activeDuration: Duration = Duration.ZERO,
@@ -131,8 +109,6 @@ data class WorkoutUiState(
     val canStartWithoutFix: Boolean = false,
     val startWithoutFixRemainingSeconds: Int = 60,
     val pauseCount: Int = 0,
-    val zoneTimeMillis: List<Long> = List(5) { 0L },
-    val unclassifiedHeartRateMillis: Long = 0,
 ) {
     val hasActiveSession: Boolean
         get() = phase in setOf(
@@ -176,8 +152,6 @@ data class WorkoutSummary(
     val averagePaceMillisPerKm: Long?,
     val averageHeartRate: Double?,
     val maximumHeartRate: Double?,
-    val zoneMillis: List<Long>,
-    val unclassifiedHeartRateMillis: Long,
     val interrupted: Boolean,
     val endReason: Int?,
 )

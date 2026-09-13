@@ -42,7 +42,7 @@ public class WorkoutDao_Impl(
   init {
     this.__db = __db
     this.__insertAdapterOfWorkoutSessionEntity = object : EntityInsertAdapter<WorkoutSessionEntity>() {
-      protected override fun createQuery(): String = "INSERT OR ABORT INTO `workout_sessions` (`id`,`status`,`startEpochMillis`,`endEpochMillis`,`startMonotonicMillis`,`elapsedMillis`,`activeMillis`,`distanceMetres`,`distanceSource`,`averagePaceMillisPerKm`,`averageHeartRate`,`maximumHeartRate`,`heartRateSampleSum`,`heartRateSampleCount`,`zone1Millis`,`zone2Millis`,`zone3Millis`,`zone4Millis`,`zone5Millis`,`unclassifiedHeartRateMillis`,`effectiveMaximumHeartRate`,`zone1LowerBpm`,`zone2LowerBpm`,`zone3LowerBpm`,`zone4LowerBpm`,`zone5LowerBpm`,`smoothingWindowSeconds`,`gpsAvailable`,`heartRateAvailable`,`endReason`,`lastRouteSequence`,`lastCheckpointEpochMillis`,`recoveredPartial`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+      protected override fun createQuery(): String = "INSERT OR ABORT INTO `workout_sessions` (`id`,`status`,`startEpochMillis`,`endEpochMillis`,`startMonotonicMillis`,`elapsedMillis`,`activeMillis`,`distanceMetres`,`distanceSource`,`averagePaceMillisPerKm`,`averageHeartRate`,`maximumHeartRate`,`heartRateSampleSum`,`heartRateSampleCount`,`smoothingWindowSeconds`,`gpsAvailable`,`heartRateAvailable`,`endReason`,`lastRouteSequence`,`lastCheckpointEpochMillis`,`recoveredPartial`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: WorkoutSessionEntity) {
         statement.bindText(1, entity.id)
@@ -81,63 +81,21 @@ public class WorkoutDao_Impl(
         }
         statement.bindDouble(13, entity.heartRateSampleSum)
         statement.bindLong(14, entity.heartRateSampleCount)
-        statement.bindLong(15, entity.zone1Millis)
-        statement.bindLong(16, entity.zone2Millis)
-        statement.bindLong(17, entity.zone3Millis)
-        statement.bindLong(18, entity.zone4Millis)
-        statement.bindLong(19, entity.zone5Millis)
-        statement.bindLong(20, entity.unclassifiedHeartRateMillis)
-        val _tmpEffectiveMaximumHeartRate: Int? = entity.effectiveMaximumHeartRate
-        if (_tmpEffectiveMaximumHeartRate == null) {
-          statement.bindNull(21)
-        } else {
-          statement.bindLong(21, _tmpEffectiveMaximumHeartRate.toLong())
-        }
-        val _tmpZone1LowerBpm: Int? = entity.zone1LowerBpm
-        if (_tmpZone1LowerBpm == null) {
-          statement.bindNull(22)
-        } else {
-          statement.bindLong(22, _tmpZone1LowerBpm.toLong())
-        }
-        val _tmpZone2LowerBpm: Int? = entity.zone2LowerBpm
-        if (_tmpZone2LowerBpm == null) {
-          statement.bindNull(23)
-        } else {
-          statement.bindLong(23, _tmpZone2LowerBpm.toLong())
-        }
-        val _tmpZone3LowerBpm: Int? = entity.zone3LowerBpm
-        if (_tmpZone3LowerBpm == null) {
-          statement.bindNull(24)
-        } else {
-          statement.bindLong(24, _tmpZone3LowerBpm.toLong())
-        }
-        val _tmpZone4LowerBpm: Int? = entity.zone4LowerBpm
-        if (_tmpZone4LowerBpm == null) {
-          statement.bindNull(25)
-        } else {
-          statement.bindLong(25, _tmpZone4LowerBpm.toLong())
-        }
-        val _tmpZone5LowerBpm: Int? = entity.zone5LowerBpm
-        if (_tmpZone5LowerBpm == null) {
-          statement.bindNull(26)
-        } else {
-          statement.bindLong(26, _tmpZone5LowerBpm.toLong())
-        }
-        statement.bindLong(27, entity.smoothingWindowSeconds.toLong())
+        statement.bindLong(15, entity.smoothingWindowSeconds.toLong())
         val _tmp_2: Int = if (entity.gpsAvailable) 1 else 0
-        statement.bindLong(28, _tmp_2.toLong())
+        statement.bindLong(16, _tmp_2.toLong())
         val _tmp_3: Int = if (entity.heartRateAvailable) 1 else 0
-        statement.bindLong(29, _tmp_3.toLong())
+        statement.bindLong(17, _tmp_3.toLong())
         val _tmpEndReason: Int? = entity.endReason
         if (_tmpEndReason == null) {
-          statement.bindNull(30)
+          statement.bindNull(18)
         } else {
-          statement.bindLong(30, _tmpEndReason.toLong())
+          statement.bindLong(18, _tmpEndReason.toLong())
         }
-        statement.bindLong(31, entity.lastRouteSequence)
-        statement.bindLong(32, entity.lastCheckpointEpochMillis)
+        statement.bindLong(19, entity.lastRouteSequence)
+        statement.bindLong(20, entity.lastCheckpointEpochMillis)
         val _tmp_4: Int = if (entity.recoveredPartial) 1 else 0
-        statement.bindLong(33, _tmp_4.toLong())
+        statement.bindLong(21, _tmp_4.toLong())
       }
     }
     this.__insertAdapterOfRoutePointEntity = object : EntityInsertAdapter<RoutePointEntity>() {
@@ -191,7 +149,7 @@ public class WorkoutDao_Impl(
       }
     }
     this.__updateAdapterOfWorkoutSessionEntity = object : EntityDeleteOrUpdateAdapter<WorkoutSessionEntity>() {
-      protected override fun createQuery(): String = "UPDATE OR ABORT `workout_sessions` SET `id` = ?,`status` = ?,`startEpochMillis` = ?,`endEpochMillis` = ?,`startMonotonicMillis` = ?,`elapsedMillis` = ?,`activeMillis` = ?,`distanceMetres` = ?,`distanceSource` = ?,`averagePaceMillisPerKm` = ?,`averageHeartRate` = ?,`maximumHeartRate` = ?,`heartRateSampleSum` = ?,`heartRateSampleCount` = ?,`zone1Millis` = ?,`zone2Millis` = ?,`zone3Millis` = ?,`zone4Millis` = ?,`zone5Millis` = ?,`unclassifiedHeartRateMillis` = ?,`effectiveMaximumHeartRate` = ?,`zone1LowerBpm` = ?,`zone2LowerBpm` = ?,`zone3LowerBpm` = ?,`zone4LowerBpm` = ?,`zone5LowerBpm` = ?,`smoothingWindowSeconds` = ?,`gpsAvailable` = ?,`heartRateAvailable` = ?,`endReason` = ?,`lastRouteSequence` = ?,`lastCheckpointEpochMillis` = ?,`recoveredPartial` = ? WHERE `id` = ?"
+      protected override fun createQuery(): String = "UPDATE OR ABORT `workout_sessions` SET `id` = ?,`status` = ?,`startEpochMillis` = ?,`endEpochMillis` = ?,`startMonotonicMillis` = ?,`elapsedMillis` = ?,`activeMillis` = ?,`distanceMetres` = ?,`distanceSource` = ?,`averagePaceMillisPerKm` = ?,`averageHeartRate` = ?,`maximumHeartRate` = ?,`heartRateSampleSum` = ?,`heartRateSampleCount` = ?,`smoothingWindowSeconds` = ?,`gpsAvailable` = ?,`heartRateAvailable` = ?,`endReason` = ?,`lastRouteSequence` = ?,`lastCheckpointEpochMillis` = ?,`recoveredPartial` = ? WHERE `id` = ?"
 
       protected override fun bind(statement: SQLiteStatement, entity: WorkoutSessionEntity) {
         statement.bindText(1, entity.id)
@@ -230,64 +188,22 @@ public class WorkoutDao_Impl(
         }
         statement.bindDouble(13, entity.heartRateSampleSum)
         statement.bindLong(14, entity.heartRateSampleCount)
-        statement.bindLong(15, entity.zone1Millis)
-        statement.bindLong(16, entity.zone2Millis)
-        statement.bindLong(17, entity.zone3Millis)
-        statement.bindLong(18, entity.zone4Millis)
-        statement.bindLong(19, entity.zone5Millis)
-        statement.bindLong(20, entity.unclassifiedHeartRateMillis)
-        val _tmpEffectiveMaximumHeartRate: Int? = entity.effectiveMaximumHeartRate
-        if (_tmpEffectiveMaximumHeartRate == null) {
-          statement.bindNull(21)
-        } else {
-          statement.bindLong(21, _tmpEffectiveMaximumHeartRate.toLong())
-        }
-        val _tmpZone1LowerBpm: Int? = entity.zone1LowerBpm
-        if (_tmpZone1LowerBpm == null) {
-          statement.bindNull(22)
-        } else {
-          statement.bindLong(22, _tmpZone1LowerBpm.toLong())
-        }
-        val _tmpZone2LowerBpm: Int? = entity.zone2LowerBpm
-        if (_tmpZone2LowerBpm == null) {
-          statement.bindNull(23)
-        } else {
-          statement.bindLong(23, _tmpZone2LowerBpm.toLong())
-        }
-        val _tmpZone3LowerBpm: Int? = entity.zone3LowerBpm
-        if (_tmpZone3LowerBpm == null) {
-          statement.bindNull(24)
-        } else {
-          statement.bindLong(24, _tmpZone3LowerBpm.toLong())
-        }
-        val _tmpZone4LowerBpm: Int? = entity.zone4LowerBpm
-        if (_tmpZone4LowerBpm == null) {
-          statement.bindNull(25)
-        } else {
-          statement.bindLong(25, _tmpZone4LowerBpm.toLong())
-        }
-        val _tmpZone5LowerBpm: Int? = entity.zone5LowerBpm
-        if (_tmpZone5LowerBpm == null) {
-          statement.bindNull(26)
-        } else {
-          statement.bindLong(26, _tmpZone5LowerBpm.toLong())
-        }
-        statement.bindLong(27, entity.smoothingWindowSeconds.toLong())
+        statement.bindLong(15, entity.smoothingWindowSeconds.toLong())
         val _tmp_2: Int = if (entity.gpsAvailable) 1 else 0
-        statement.bindLong(28, _tmp_2.toLong())
+        statement.bindLong(16, _tmp_2.toLong())
         val _tmp_3: Int = if (entity.heartRateAvailable) 1 else 0
-        statement.bindLong(29, _tmp_3.toLong())
+        statement.bindLong(17, _tmp_3.toLong())
         val _tmpEndReason: Int? = entity.endReason
         if (_tmpEndReason == null) {
-          statement.bindNull(30)
+          statement.bindNull(18)
         } else {
-          statement.bindLong(30, _tmpEndReason.toLong())
+          statement.bindLong(18, _tmpEndReason.toLong())
         }
-        statement.bindLong(31, entity.lastRouteSequence)
-        statement.bindLong(32, entity.lastCheckpointEpochMillis)
+        statement.bindLong(19, entity.lastRouteSequence)
+        statement.bindLong(20, entity.lastCheckpointEpochMillis)
         val _tmp_4: Int = if (entity.recoveredPartial) 1 else 0
-        statement.bindLong(33, _tmp_4.toLong())
-        statement.bindText(34, entity.id)
+        statement.bindLong(21, _tmp_4.toLong())
+        statement.bindText(22, entity.id)
       }
     }
   }
@@ -337,18 +253,6 @@ public class WorkoutDao_Impl(
         val _columnIndexOfMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "maximumHeartRate")
         val _columnIndexOfHeartRateSampleSum: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleSum")
         val _columnIndexOfHeartRateSampleCount: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleCount")
-        val _columnIndexOfZone1Millis: Int = getColumnIndexOrThrow(_stmt, "zone1Millis")
-        val _columnIndexOfZone2Millis: Int = getColumnIndexOrThrow(_stmt, "zone2Millis")
-        val _columnIndexOfZone3Millis: Int = getColumnIndexOrThrow(_stmt, "zone3Millis")
-        val _columnIndexOfZone4Millis: Int = getColumnIndexOrThrow(_stmt, "zone4Millis")
-        val _columnIndexOfZone5Millis: Int = getColumnIndexOrThrow(_stmt, "zone5Millis")
-        val _columnIndexOfUnclassifiedHeartRateMillis: Int = getColumnIndexOrThrow(_stmt, "unclassifiedHeartRateMillis")
-        val _columnIndexOfEffectiveMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "effectiveMaximumHeartRate")
-        val _columnIndexOfZone1LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone1LowerBpm")
-        val _columnIndexOfZone2LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone2LowerBpm")
-        val _columnIndexOfZone3LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone3LowerBpm")
-        val _columnIndexOfZone4LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone4LowerBpm")
-        val _columnIndexOfZone5LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone5LowerBpm")
         val _columnIndexOfSmoothingWindowSeconds: Int = getColumnIndexOrThrow(_stmt, "smoothingWindowSeconds")
         val _columnIndexOfGpsAvailable: Int = getColumnIndexOrThrow(_stmt, "gpsAvailable")
         val _columnIndexOfHeartRateAvailable: Int = getColumnIndexOrThrow(_stmt, "heartRateAvailable")
@@ -406,54 +310,6 @@ public class WorkoutDao_Impl(
           _tmpHeartRateSampleSum = _stmt.getDouble(_columnIndexOfHeartRateSampleSum)
           val _tmpHeartRateSampleCount: Long
           _tmpHeartRateSampleCount = _stmt.getLong(_columnIndexOfHeartRateSampleCount)
-          val _tmpZone1Millis: Long
-          _tmpZone1Millis = _stmt.getLong(_columnIndexOfZone1Millis)
-          val _tmpZone2Millis: Long
-          _tmpZone2Millis = _stmt.getLong(_columnIndexOfZone2Millis)
-          val _tmpZone3Millis: Long
-          _tmpZone3Millis = _stmt.getLong(_columnIndexOfZone3Millis)
-          val _tmpZone4Millis: Long
-          _tmpZone4Millis = _stmt.getLong(_columnIndexOfZone4Millis)
-          val _tmpZone5Millis: Long
-          _tmpZone5Millis = _stmt.getLong(_columnIndexOfZone5Millis)
-          val _tmpUnclassifiedHeartRateMillis: Long
-          _tmpUnclassifiedHeartRateMillis = _stmt.getLong(_columnIndexOfUnclassifiedHeartRateMillis)
-          val _tmpEffectiveMaximumHeartRate: Int?
-          if (_stmt.isNull(_columnIndexOfEffectiveMaximumHeartRate)) {
-            _tmpEffectiveMaximumHeartRate = null
-          } else {
-            _tmpEffectiveMaximumHeartRate = _stmt.getLong(_columnIndexOfEffectiveMaximumHeartRate).toInt()
-          }
-          val _tmpZone1LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone1LowerBpm)) {
-            _tmpZone1LowerBpm = null
-          } else {
-            _tmpZone1LowerBpm = _stmt.getLong(_columnIndexOfZone1LowerBpm).toInt()
-          }
-          val _tmpZone2LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone2LowerBpm)) {
-            _tmpZone2LowerBpm = null
-          } else {
-            _tmpZone2LowerBpm = _stmt.getLong(_columnIndexOfZone2LowerBpm).toInt()
-          }
-          val _tmpZone3LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone3LowerBpm)) {
-            _tmpZone3LowerBpm = null
-          } else {
-            _tmpZone3LowerBpm = _stmt.getLong(_columnIndexOfZone3LowerBpm).toInt()
-          }
-          val _tmpZone4LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone4LowerBpm)) {
-            _tmpZone4LowerBpm = null
-          } else {
-            _tmpZone4LowerBpm = _stmt.getLong(_columnIndexOfZone4LowerBpm).toInt()
-          }
-          val _tmpZone5LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone5LowerBpm)) {
-            _tmpZone5LowerBpm = null
-          } else {
-            _tmpZone5LowerBpm = _stmt.getLong(_columnIndexOfZone5LowerBpm).toInt()
-          }
           val _tmpSmoothingWindowSeconds: Int
           _tmpSmoothingWindowSeconds = _stmt.getLong(_columnIndexOfSmoothingWindowSeconds).toInt()
           val _tmpGpsAvailable: Boolean
@@ -478,7 +334,7 @@ public class WorkoutDao_Impl(
           val _tmp_4: Int
           _tmp_4 = _stmt.getLong(_columnIndexOfRecoveredPartial).toInt()
           _tmpRecoveredPartial = _tmp_4 != 0
-          _result = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpZone1Millis,_tmpZone2Millis,_tmpZone3Millis,_tmpZone4Millis,_tmpZone5Millis,_tmpUnclassifiedHeartRateMillis,_tmpEffectiveMaximumHeartRate,_tmpZone1LowerBpm,_tmpZone2LowerBpm,_tmpZone3LowerBpm,_tmpZone4LowerBpm,_tmpZone5LowerBpm,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
+          _result = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
         } else {
           _result = null
         }
@@ -508,18 +364,6 @@ public class WorkoutDao_Impl(
         val _columnIndexOfMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "maximumHeartRate")
         val _columnIndexOfHeartRateSampleSum: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleSum")
         val _columnIndexOfHeartRateSampleCount: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleCount")
-        val _columnIndexOfZone1Millis: Int = getColumnIndexOrThrow(_stmt, "zone1Millis")
-        val _columnIndexOfZone2Millis: Int = getColumnIndexOrThrow(_stmt, "zone2Millis")
-        val _columnIndexOfZone3Millis: Int = getColumnIndexOrThrow(_stmt, "zone3Millis")
-        val _columnIndexOfZone4Millis: Int = getColumnIndexOrThrow(_stmt, "zone4Millis")
-        val _columnIndexOfZone5Millis: Int = getColumnIndexOrThrow(_stmt, "zone5Millis")
-        val _columnIndexOfUnclassifiedHeartRateMillis: Int = getColumnIndexOrThrow(_stmt, "unclassifiedHeartRateMillis")
-        val _columnIndexOfEffectiveMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "effectiveMaximumHeartRate")
-        val _columnIndexOfZone1LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone1LowerBpm")
-        val _columnIndexOfZone2LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone2LowerBpm")
-        val _columnIndexOfZone3LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone3LowerBpm")
-        val _columnIndexOfZone4LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone4LowerBpm")
-        val _columnIndexOfZone5LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone5LowerBpm")
         val _columnIndexOfSmoothingWindowSeconds: Int = getColumnIndexOrThrow(_stmt, "smoothingWindowSeconds")
         val _columnIndexOfGpsAvailable: Int = getColumnIndexOrThrow(_stmt, "gpsAvailable")
         val _columnIndexOfHeartRateAvailable: Int = getColumnIndexOrThrow(_stmt, "heartRateAvailable")
@@ -577,54 +421,6 @@ public class WorkoutDao_Impl(
           _tmpHeartRateSampleSum = _stmt.getDouble(_columnIndexOfHeartRateSampleSum)
           val _tmpHeartRateSampleCount: Long
           _tmpHeartRateSampleCount = _stmt.getLong(_columnIndexOfHeartRateSampleCount)
-          val _tmpZone1Millis: Long
-          _tmpZone1Millis = _stmt.getLong(_columnIndexOfZone1Millis)
-          val _tmpZone2Millis: Long
-          _tmpZone2Millis = _stmt.getLong(_columnIndexOfZone2Millis)
-          val _tmpZone3Millis: Long
-          _tmpZone3Millis = _stmt.getLong(_columnIndexOfZone3Millis)
-          val _tmpZone4Millis: Long
-          _tmpZone4Millis = _stmt.getLong(_columnIndexOfZone4Millis)
-          val _tmpZone5Millis: Long
-          _tmpZone5Millis = _stmt.getLong(_columnIndexOfZone5Millis)
-          val _tmpUnclassifiedHeartRateMillis: Long
-          _tmpUnclassifiedHeartRateMillis = _stmt.getLong(_columnIndexOfUnclassifiedHeartRateMillis)
-          val _tmpEffectiveMaximumHeartRate: Int?
-          if (_stmt.isNull(_columnIndexOfEffectiveMaximumHeartRate)) {
-            _tmpEffectiveMaximumHeartRate = null
-          } else {
-            _tmpEffectiveMaximumHeartRate = _stmt.getLong(_columnIndexOfEffectiveMaximumHeartRate).toInt()
-          }
-          val _tmpZone1LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone1LowerBpm)) {
-            _tmpZone1LowerBpm = null
-          } else {
-            _tmpZone1LowerBpm = _stmt.getLong(_columnIndexOfZone1LowerBpm).toInt()
-          }
-          val _tmpZone2LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone2LowerBpm)) {
-            _tmpZone2LowerBpm = null
-          } else {
-            _tmpZone2LowerBpm = _stmt.getLong(_columnIndexOfZone2LowerBpm).toInt()
-          }
-          val _tmpZone3LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone3LowerBpm)) {
-            _tmpZone3LowerBpm = null
-          } else {
-            _tmpZone3LowerBpm = _stmt.getLong(_columnIndexOfZone3LowerBpm).toInt()
-          }
-          val _tmpZone4LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone4LowerBpm)) {
-            _tmpZone4LowerBpm = null
-          } else {
-            _tmpZone4LowerBpm = _stmt.getLong(_columnIndexOfZone4LowerBpm).toInt()
-          }
-          val _tmpZone5LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone5LowerBpm)) {
-            _tmpZone5LowerBpm = null
-          } else {
-            _tmpZone5LowerBpm = _stmt.getLong(_columnIndexOfZone5LowerBpm).toInt()
-          }
           val _tmpSmoothingWindowSeconds: Int
           _tmpSmoothingWindowSeconds = _stmt.getLong(_columnIndexOfSmoothingWindowSeconds).toInt()
           val _tmpGpsAvailable: Boolean
@@ -649,7 +445,7 @@ public class WorkoutDao_Impl(
           val _tmp_4: Int
           _tmp_4 = _stmt.getLong(_columnIndexOfRecoveredPartial).toInt()
           _tmpRecoveredPartial = _tmp_4 != 0
-          _result = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpZone1Millis,_tmpZone2Millis,_tmpZone3Millis,_tmpZone4Millis,_tmpZone5Millis,_tmpUnclassifiedHeartRateMillis,_tmpEffectiveMaximumHeartRate,_tmpZone1LowerBpm,_tmpZone2LowerBpm,_tmpZone3LowerBpm,_tmpZone4LowerBpm,_tmpZone5LowerBpm,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
+          _result = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
         } else {
           _result = null
         }
@@ -681,18 +477,6 @@ public class WorkoutDao_Impl(
         val _columnIndexOfMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "maximumHeartRate")
         val _columnIndexOfHeartRateSampleSum: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleSum")
         val _columnIndexOfHeartRateSampleCount: Int = getColumnIndexOrThrow(_stmt, "heartRateSampleCount")
-        val _columnIndexOfZone1Millis: Int = getColumnIndexOrThrow(_stmt, "zone1Millis")
-        val _columnIndexOfZone2Millis: Int = getColumnIndexOrThrow(_stmt, "zone2Millis")
-        val _columnIndexOfZone3Millis: Int = getColumnIndexOrThrow(_stmt, "zone3Millis")
-        val _columnIndexOfZone4Millis: Int = getColumnIndexOrThrow(_stmt, "zone4Millis")
-        val _columnIndexOfZone5Millis: Int = getColumnIndexOrThrow(_stmt, "zone5Millis")
-        val _columnIndexOfUnclassifiedHeartRateMillis: Int = getColumnIndexOrThrow(_stmt, "unclassifiedHeartRateMillis")
-        val _columnIndexOfEffectiveMaximumHeartRate: Int = getColumnIndexOrThrow(_stmt, "effectiveMaximumHeartRate")
-        val _columnIndexOfZone1LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone1LowerBpm")
-        val _columnIndexOfZone2LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone2LowerBpm")
-        val _columnIndexOfZone3LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone3LowerBpm")
-        val _columnIndexOfZone4LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone4LowerBpm")
-        val _columnIndexOfZone5LowerBpm: Int = getColumnIndexOrThrow(_stmt, "zone5LowerBpm")
         val _columnIndexOfSmoothingWindowSeconds: Int = getColumnIndexOrThrow(_stmt, "smoothingWindowSeconds")
         val _columnIndexOfGpsAvailable: Int = getColumnIndexOrThrow(_stmt, "gpsAvailable")
         val _columnIndexOfHeartRateAvailable: Int = getColumnIndexOrThrow(_stmt, "heartRateAvailable")
@@ -751,54 +535,6 @@ public class WorkoutDao_Impl(
           _tmpHeartRateSampleSum = _stmt.getDouble(_columnIndexOfHeartRateSampleSum)
           val _tmpHeartRateSampleCount: Long
           _tmpHeartRateSampleCount = _stmt.getLong(_columnIndexOfHeartRateSampleCount)
-          val _tmpZone1Millis: Long
-          _tmpZone1Millis = _stmt.getLong(_columnIndexOfZone1Millis)
-          val _tmpZone2Millis: Long
-          _tmpZone2Millis = _stmt.getLong(_columnIndexOfZone2Millis)
-          val _tmpZone3Millis: Long
-          _tmpZone3Millis = _stmt.getLong(_columnIndexOfZone3Millis)
-          val _tmpZone4Millis: Long
-          _tmpZone4Millis = _stmt.getLong(_columnIndexOfZone4Millis)
-          val _tmpZone5Millis: Long
-          _tmpZone5Millis = _stmt.getLong(_columnIndexOfZone5Millis)
-          val _tmpUnclassifiedHeartRateMillis: Long
-          _tmpUnclassifiedHeartRateMillis = _stmt.getLong(_columnIndexOfUnclassifiedHeartRateMillis)
-          val _tmpEffectiveMaximumHeartRate: Int?
-          if (_stmt.isNull(_columnIndexOfEffectiveMaximumHeartRate)) {
-            _tmpEffectiveMaximumHeartRate = null
-          } else {
-            _tmpEffectiveMaximumHeartRate = _stmt.getLong(_columnIndexOfEffectiveMaximumHeartRate).toInt()
-          }
-          val _tmpZone1LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone1LowerBpm)) {
-            _tmpZone1LowerBpm = null
-          } else {
-            _tmpZone1LowerBpm = _stmt.getLong(_columnIndexOfZone1LowerBpm).toInt()
-          }
-          val _tmpZone2LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone2LowerBpm)) {
-            _tmpZone2LowerBpm = null
-          } else {
-            _tmpZone2LowerBpm = _stmt.getLong(_columnIndexOfZone2LowerBpm).toInt()
-          }
-          val _tmpZone3LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone3LowerBpm)) {
-            _tmpZone3LowerBpm = null
-          } else {
-            _tmpZone3LowerBpm = _stmt.getLong(_columnIndexOfZone3LowerBpm).toInt()
-          }
-          val _tmpZone4LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone4LowerBpm)) {
-            _tmpZone4LowerBpm = null
-          } else {
-            _tmpZone4LowerBpm = _stmt.getLong(_columnIndexOfZone4LowerBpm).toInt()
-          }
-          val _tmpZone5LowerBpm: Int?
-          if (_stmt.isNull(_columnIndexOfZone5LowerBpm)) {
-            _tmpZone5LowerBpm = null
-          } else {
-            _tmpZone5LowerBpm = _stmt.getLong(_columnIndexOfZone5LowerBpm).toInt()
-          }
           val _tmpSmoothingWindowSeconds: Int
           _tmpSmoothingWindowSeconds = _stmt.getLong(_columnIndexOfSmoothingWindowSeconds).toInt()
           val _tmpGpsAvailable: Boolean
@@ -823,7 +559,7 @@ public class WorkoutDao_Impl(
           val _tmp_4: Int
           _tmp_4 = _stmt.getLong(_columnIndexOfRecoveredPartial).toInt()
           _tmpRecoveredPartial = _tmp_4 != 0
-          _item = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpZone1Millis,_tmpZone2Millis,_tmpZone3Millis,_tmpZone4Millis,_tmpZone5Millis,_tmpUnclassifiedHeartRateMillis,_tmpEffectiveMaximumHeartRate,_tmpZone1LowerBpm,_tmpZone2LowerBpm,_tmpZone3LowerBpm,_tmpZone4LowerBpm,_tmpZone5LowerBpm,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
+          _item = WorkoutSessionEntity(_tmpId,_tmpStatus,_tmpStartEpochMillis,_tmpEndEpochMillis,_tmpStartMonotonicMillis,_tmpElapsedMillis,_tmpActiveMillis,_tmpDistanceMetres,_tmpDistanceSource,_tmpAveragePaceMillisPerKm,_tmpAverageHeartRate,_tmpMaximumHeartRate,_tmpHeartRateSampleSum,_tmpHeartRateSampleCount,_tmpSmoothingWindowSeconds,_tmpGpsAvailable,_tmpHeartRateAvailable,_tmpEndReason,_tmpLastRouteSequence,_tmpLastCheckpointEpochMillis,_tmpRecoveredPartial)
           _result.add(_item)
         }
         _result

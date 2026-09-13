@@ -18,7 +18,8 @@ Record the watch firmware, Wear OS version, API level, Health Services version, 
 - Start, pause, resume, and end by touch.
 - Pause/resume with each assignable stem button; record emitted keycodes using `adb logcat` if mappings differ.
 - Repeatedly press controls and verify no double transition or accidental end.
-- Put the screen to sleep and return to the watch face; verify the Ongoing Activity returns to the active session.
+- Leave the watch untouched and rotate the wrist away; verify the workout screen remains interactive and the pace continues updating.
+- Manually return to the watch face; verify the Ongoing Activity returns to the active session.
 - Kill the app process without force-stop and reopen; verify Health Services reconnection is reported without claiming to restore discarded metrics.
 - Force-stop or reboot and verify the app does not fabricate or persist a workout record.
 
@@ -32,12 +33,12 @@ Record the watch firmware, Wear OS version, API level, Health Services version, 
 
 ## Reliability and power
 
-- Run at least one two-hour recording with the display mostly off.
+- Run at least one two-hour recording with the workout display kept on.
 - Repeat short start/end cycles and rapid pause/resume cycles.
 - Test OnePlus normal smart mode and each available battery/power saver mode.
 - Record whether RTOS/power switching changes callbacks, GPS accuracy, notifications, or service survival.
 - Record battery percentage before and after standardized 60-minute runs.
-- Verify active duration has no missing intervals after a 60-minute screen-off test.
+- Verify active duration and pace have no missing intervals after a 60-minute wrist-down test.
 
 ## Display-only behavior and upgrade
 

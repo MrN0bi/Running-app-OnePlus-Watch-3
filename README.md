@@ -11,12 +11,12 @@ A standalone, watch-only Wear OS running display built for the OnePlus Watch 3. 
 - Health Services-authoritative prepare/start/pause/resume/end state handling with serialized, debounced commands.
 - Runtime permission flows for API 30–35 sensors and API 36 health permissions; heart-rate denial degrades to GPS-only.
 - Five-second GPS pace by default, with 3/5/10-second settings, point validation, weighted regression, residual filtering, flicker suppression, and stale/unavailable states.
-- Health-rate zones from age or manual maximum HR, zone indicator, and active-only zone-time accumulation.
-- Preferences DataStore for age, maximum-HR mode, manual maximum HR, and smoothing window.
+- The display stays interactive from workout preparation through workout end so live pace is not throttled by ambient-mode batching.
+- Preferences DataStore for the pace smoothing window.
 - Round Compose UI for start, acquisition, active workout, paused controls, end confirmation, an in-memory end summary, and settings.
 - Acquisition diagnostics show Health Services availability, selected location source, horizontal accuracy, and the 25 m readiness threshold.
 - Foreground stem-key pause/resume handling and touch fallback.
-- Backup disabled and no Internet, storage, Bluetooth, phone, wake-lock, or background-location permission.
+- Backup disabled and no Internet, storage, Bluetooth, phone, `WAKE_LOCK`, or background-location permission.
 
 ## Build
 
@@ -55,7 +55,7 @@ $watchAddress = Read-Host "Enter the IP address and port shown on the main Wirel
 & $adb connect $watchAddress
 
 & $adb devices
-& $adb install -r "D:\Computer\Documents\VSCode Projects\Watch-running\app\build\outputs\apk\debug\app-debug.apk"
+& $adb install -r "D:\Computer\Documents\VSCode Projects\Running-app-OnePlus-Watch-3\app\build\outputs\apk\debug\app-debug.apk"
 ```
 
 `-r` preserves display settings when the application ID and signing certificate are unchanged.
@@ -64,4 +64,4 @@ $watchAddress = Read-Host "Enter the IP address and port shown on the main Wirel
 
 Emulator/build validation cannot answer OnePlus firmware-specific questions. Before treating this as a release APK, complete [the physical watch checklist](docs/PHYSICAL_WATCH_CHECKLIST.md), especially permissions, screen-off delivery, exercise reconnection, button mapping, OnePlus power modes, long-run survival, accuracy, and battery tests.
 
-Ambient rendering is intentionally not enabled in this build: Android's current `AmbientLifecycleObserver` documentation requires the `WAKE_LOCK` permission, while the requested permission policy explicitly forbids it. The foreground service and Ongoing Activity continue the workout when the activity is not visible.
+During preparation and an in-progress workout, Compose's `keepScreenOn` modifier prevents the watch from entering ambient mode. The foreground service owns the exercise callbacks, location subscriptions, and one-second pace calculation independently of the UI. Expect higher battery consumption while recording a run.

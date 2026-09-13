@@ -32,15 +32,15 @@ public class WorkoutDatabase_Impl : WorkoutDatabase() {
   }
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(1, "bbcf00190f12c9f3b8f0d5281672eb4d", "32cf391672282660b3cbd82e636d8f4c") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(2, "78f85656a9af6fa2bdff7d7a735e8404", "55756494da544edf35c852127d403065") {
       public override fun createAllTables(connection: SQLiteConnection) {
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `workout_sessions` (`id` TEXT NOT NULL, `status` TEXT NOT NULL, `startEpochMillis` INTEGER NOT NULL, `endEpochMillis` INTEGER, `startMonotonicMillis` INTEGER NOT NULL, `elapsedMillis` INTEGER NOT NULL, `activeMillis` INTEGER NOT NULL, `distanceMetres` REAL NOT NULL, `distanceSource` TEXT NOT NULL, `averagePaceMillisPerKm` INTEGER, `averageHeartRate` REAL, `maximumHeartRate` REAL, `heartRateSampleSum` REAL NOT NULL, `heartRateSampleCount` INTEGER NOT NULL, `zone1Millis` INTEGER NOT NULL, `zone2Millis` INTEGER NOT NULL, `zone3Millis` INTEGER NOT NULL, `zone4Millis` INTEGER NOT NULL, `zone5Millis` INTEGER NOT NULL, `unclassifiedHeartRateMillis` INTEGER NOT NULL, `effectiveMaximumHeartRate` INTEGER, `zone1LowerBpm` INTEGER, `zone2LowerBpm` INTEGER, `zone3LowerBpm` INTEGER, `zone4LowerBpm` INTEGER, `zone5LowerBpm` INTEGER, `smoothingWindowSeconds` INTEGER NOT NULL, `gpsAvailable` INTEGER NOT NULL, `heartRateAvailable` INTEGER NOT NULL, `endReason` INTEGER, `lastRouteSequence` INTEGER NOT NULL, `lastCheckpointEpochMillis` INTEGER NOT NULL, `recoveredPartial` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `workout_sessions` (`id` TEXT NOT NULL, `status` TEXT NOT NULL, `startEpochMillis` INTEGER NOT NULL, `endEpochMillis` INTEGER, `startMonotonicMillis` INTEGER NOT NULL, `elapsedMillis` INTEGER NOT NULL, `activeMillis` INTEGER NOT NULL, `distanceMetres` REAL NOT NULL, `distanceSource` TEXT NOT NULL, `averagePaceMillisPerKm` INTEGER, `averageHeartRate` REAL, `maximumHeartRate` REAL, `heartRateSampleSum` REAL NOT NULL, `heartRateSampleCount` INTEGER NOT NULL, `smoothingWindowSeconds` INTEGER NOT NULL, `gpsAvailable` INTEGER NOT NULL, `heartRateAvailable` INTEGER NOT NULL, `endReason` INTEGER, `lastRouteSequence` INTEGER NOT NULL, `lastCheckpointEpochMillis` INTEGER NOT NULL, `recoveredPartial` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `route_points` (`sessionId` TEXT NOT NULL, `sequence` INTEGER NOT NULL, `epochMillis` INTEGER NOT NULL, `activeOffsetMillis` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `altitudeMetres` REAL, `bearingDegrees` REAL, `horizontalAccuracyMetres` REAL NOT NULL, `continuitySegment` INTEGER NOT NULL, PRIMARY KEY(`sessionId`, `sequence`), FOREIGN KEY(`sessionId`) REFERENCES `workout_sessions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_route_points_sessionId` ON `route_points` (`sessionId`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `pause_periods` (`sessionId` TEXT NOT NULL, `sequence` INTEGER NOT NULL, `startEpochMillis` INTEGER NOT NULL, `endEpochMillis` INTEGER, `startActiveMillis` INTEGER NOT NULL, `endActiveMillis` INTEGER, `reason` TEXT NOT NULL, PRIMARY KEY(`sessionId`, `sequence`), FOREIGN KEY(`sessionId`) REFERENCES `workout_sessions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_pause_periods_sessionId` ON `pause_periods` (`sessionId`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbcf00190f12c9f3b8f0d5281672eb4d')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78f85656a9af6fa2bdff7d7a735e8404')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -80,18 +80,6 @@ public class WorkoutDatabase_Impl : WorkoutDatabase() {
         _columnsWorkoutSessions.put("maximumHeartRate", TableInfo.Column("maximumHeartRate", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsWorkoutSessions.put("heartRateSampleSum", TableInfo.Column("heartRateSampleSum", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsWorkoutSessions.put("heartRateSampleCount", TableInfo.Column("heartRateSampleCount", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone1Millis", TableInfo.Column("zone1Millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone2Millis", TableInfo.Column("zone2Millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone3Millis", TableInfo.Column("zone3Millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone4Millis", TableInfo.Column("zone4Millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone5Millis", TableInfo.Column("zone5Millis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("unclassifiedHeartRateMillis", TableInfo.Column("unclassifiedHeartRateMillis", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("effectiveMaximumHeartRate", TableInfo.Column("effectiveMaximumHeartRate", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone1LowerBpm", TableInfo.Column("zone1LowerBpm", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone2LowerBpm", TableInfo.Column("zone2LowerBpm", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone3LowerBpm", TableInfo.Column("zone3LowerBpm", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone4LowerBpm", TableInfo.Column("zone4LowerBpm", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsWorkoutSessions.put("zone5LowerBpm", TableInfo.Column("zone5LowerBpm", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsWorkoutSessions.put("smoothingWindowSeconds", TableInfo.Column("smoothingWindowSeconds", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsWorkoutSessions.put("gpsAvailable", TableInfo.Column("gpsAvailable", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsWorkoutSessions.put("heartRateAvailable", TableInfo.Column("heartRateAvailable", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
@@ -190,6 +178,7 @@ public class WorkoutDatabase_Impl : WorkoutDatabase() {
 
   public override fun createAutoMigrations(autoMigrationSpecs: Map<KClass<out AutoMigrationSpec>, AutoMigrationSpec>): List<Migration> {
     val _autoMigrations: MutableList<Migration> = mutableListOf()
+    _autoMigrations.add(WorkoutDatabase_AutoMigration_1_2_Impl())
     return _autoMigrations
   }
 
